@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلب الصيانة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* إعداد الخلفية بتدرج رمادي */
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* لضمان ملاءمة المحتوى في الشاشة */
+      background: linear-gradient(to bottom, #b0b0b0, #ffffff); /* تدرج رمادي */
+    }
+
+    /* شريط التنقل */
+    .navbar {
+      background: #1e1e2f; /* خلفية الهيدر */
+      padding: 15px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* مركز العناصر */
+      font-size: 20px;
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #ffcc00; /* لون العنوان */
+      position: absolute;
+      left: 30px; /* لإبقاء العنوان على اليسار */
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      align-items: center;
+      margin-left: 80px; /* إضافة مساحة بين العنوان والروابط */
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .navbar a:hover {
+      color: #ffcc00; /* تدرج اللون عند التمرير */
+    }
+
+    /* قائمة منسدلة */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block; /* عرض القائمة عند التمرير */
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd; /* تغيير الخلفية عند التمرير */
+    }
+
+    /* قسم الخدمات */
+    .services {
+      display: flex;
+      flex-direction: column; /* ترتيب العمود */
+      align-items: center; /* محاذاة العناصر في المنتصف */
+      margin: 20px;
+    }
+
+    .service-row {
+      display: flex; /* لعرض خدمتين جنبًا إلى جنب */
+      justify-content: center;
+      margin: 10px;
+    }
+
+    .service-option {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      margin: 10px;
+      text-align: center;
+      width: 100px;
+      transition: transform 0.3s, background-color 0.3s; /* إضافة تأثير تغيير اللون */
+      cursor: pointer;
+    }
+
+    .service-option:hover {
+      transform: scale(1.1);
+      background-color: #ffcc00; /* تغيير لون الخلفية إلى الأصفر عند التمرير */
+    }
+
+    .icon {
+      font-size: 40px; /* حجم الأيقونة */
+      margin-bottom: 10px;
+      color: #ffcc00; /* لون الأيقونة */
+    }
+
+    /* قسم طلب الصيانة */
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      margin: 20px auto; /* جعل الهامش صفر لجعل النموذج في المنتصف */
+      text-align: center;
+      display: none; /* إخفاء النموذج في البداية */
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+      color: #333;
+      text-align: right; /* محاذاة النص إلى اليمين */
+    }
+
+    select, textarea, input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 5px;
+      box-sizing: border-box; /* لضمان عدم تجاوز الحدود */
+      direction: rtl; /* تغيير اتجاه النص */
+    }
+
+    button {
+      background-color: #ffcc00; /* اللون الأصلي */
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #e6b800; /* لون أغمق عند التمرير */
+    }
+
+    /* الفوتر */
+    footer {
+      background: #1e1e2f;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto; /* يجعل الفوتر ثابتًا في الأسفل */
+    }
+
+    footer a {
+      color: #ffcc00;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    /* نافذة منبثقة */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- شريط التنقل -->
+<div class="navbar">
+    <h1 id="navbar-title">نظام السكن</h1>
+    <div class="nav-links">
+        <a href="#">HOME</a>
+        <a href="#" id="aboutBtn">ABOUT</a>
+        <div class="dropdown">
+            <a href="#">SERVICES</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="scrollToService('service1')">حجز غرفة</a>
+                <a href="#" onclick="scrollToService('service2')">طلب صيانة</a>
+                <a href="#" onclick="scrollToService('service3')">تقديم شكوى</a>
+                <a href="#" onclick="scrollToService('service4')">تجديد / إخلاء عقد</a>
+            </div>
+        </div>
+        <a href="#">ROOMS</a>
+        <a href="#">PAGES</a>
+    </div>
+</div>
+
+<!-- قسم الخدمات -->
+<div class="services">
+    <div class="service-row">
+        <div class="service-option" onclick="showForm('نجاره')">
+            <span class="material-icons icon">precision_manufacturing</span>
+            <span>نجاره</span>
+        </div>
+        <div class="service-option" onclick="showForm('سباكة')">
+            <span class="material-icons icon">water</span>
+            <span>سباكة</span>
+        </div>
+    </div>
+    <div class="service-row">
+        <div class="service-option" onclick="showForm('كهرباء')">
+            <span class="material-icons icon">electric_bolt</span>
+            <span>كهرباء</span>
+        </div>
+        <div class="service-option" onclick="showForm('تكيف وتبريد')">
+            <span class="material-icons icon">ac_unit</span>
+            <span>تكيف</span>
+        </div>
+    </div>
+    <div class="service-row">
+        <div class="service-option" onclick="showForm('أجهزة صوتية')">
+            <span class="material-icons icon">volume_up</span>
+            <span>أجهزة صوتية</span>
+        </div>
+        <div class="service-option" onclick="showForm('الحداده')">
+            <span class="material-icons icon">build</span>
+            <span>الحداده</span>
+        </div>
+    </div>
+</div>
+
+<!-- قسم طلب الصيانة -->
+<div class="container" id="requestForm">
+    <h2>طلب الصيانة</h2>
+    <form id="maintenanceForm">
+        <label for="reportLocation">موقع البلاغ:</label>
+        <input type="text" id="reportLocation" name="reportLocation" required>
+
+        <label for="transfer">التحويلة:</label>
+        <input type="text" id="transfer" name="transfer" required>
+
+        <label for="complaint">تفاصيل الطلب:</label>
+        <textarea id="complaint" name="complaint" rows="6" required></textarea>
+
+        <label for="imageUpload">رفع صورة مرفقة:</label>
+        <input type="file" id="imageUpload" name="imageUpload" accept="image/*">
+
+        <button type="button" onclick="confirmSubmission()">إرسال الطلب</button>
+    </form>
+</div>
+
+<!-- نافذة تأكيد الطلب -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeConfirmationModal">&times;</span>
+        <h2>تأكيد الإرسال</h2>
+        <p>هل أنت متأكد من إرسال الطلب؟</p>
+        <button id="confirmSubmit">نعم</button>
+        <button id="cancelSubmit">لا</button>
+    </div>
+</div>
+
+<!-- نافذة منبثقة لـ ABOUT -->
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>معلومات عن موقع سكن الطلاب</h2>
+        <p>نظام السكن يقدم خدمات متعددة للطلاب، بما في ذلك حجز الغرف، طلبات الصيانة، وتقديم الشكاوى. هدفنا هو توفير بيئة مريحة وآمنة للطلاب، حيث يمكنهم التركيز على دراستهم وتطوير مهاراتهم.</p>
+    </div>
+</div>
+
+<!-- الفوتر -->
+<footer>
+    <p id="footer-text">© 2025 نظام السكن. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script>
+    function scrollToService(service) {
+        alert("تم اختيار الخدمة: " + service); // يمكنك تخصيص هذه الدالة لتوجيه المستخدم إلى القسم المطلوب
+    }
+
+    function showForm(service) {
+        document.getElementById('requestForm').style.display = 'block'; // إظهار النموذج
+        document.getElementById('complaint').value = `طلب خدمة: ${service}`; // تعيين الخدمة في تفاصيل الطلب
+    }
+
+    function confirmSubmission() {
+        // التحقق من الحقول
+        const reportLocation = document.getElementById('reportLocation').value;
+        const transfer = document.getElementById('transfer').value;
+        const complaint = document.getElementById('complaint').value;
+
+        if (!reportLocation || !transfer || !complaint) {
+            alert("يرجى تعبئة جميع الحقول قبل الإرسال."); // تنبيه المستخدم
+            return; // إنهاء الدالة إذا كانت الحقول فارغة
+        }
+
+        document.getElementById('confirmationModal').style.display = 'block'; // إظهار نافذة التأكيد
+    }
+
+    // فتح وإغلاق نافذة التأكيد
+    var confirmationModal = document.getElementById("confirmationModal");
+    var closeConfirmationModal = document.getElementById("closeConfirmationModal");
+    var confirmSubmit = document.getElementById("confirmSubmit");
+    var cancelSubmit = document.getElementById("cancelSubmit");
+
+    closeConfirmationModal.onclick = function() {
+        confirmationModal.style.display = "none";
+    }
+
+    confirmSubmit.onclick = function() {
+        const randomNumber = Math.floor(Math.random() * 1000000); // توليد رقم عشوائي
+        alert(`تم تقديم الطلب بنجاح!\nرقم الطلب: ${randomNumber}`); // عرض رقم الطلب
+        confirmationModal.style.display = "none"; // إغلاق النافذة
+        document.getElementById('maintenanceForm').reset(); // إعادة تعيين النموذج
+        document.getElementById('requestForm').style.display = 'none'; // إخفاء النموذج
+    }
+
+    cancelSubmit.onclick = function() {
+        confirmationModal.style.display = "none"; // إغلاق النافذة
+    }
+
+    // فتح وإغلاق النافذة المنبثقة لـ ABOUT
+    var modal = document.getElementById("aboutModal");
+    var btn = document.getElementById("aboutBtn");
+    var span = document.getElementById("closeModal");
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal || event.target == confirmationModal) {
+            modal.style.display = "none";
+            confirmationModal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>

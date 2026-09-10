@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام السكن - الصفحة الرئيسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('p2.png') no-repeat center center fixed; /* إضافة الصورة كخلفية */
+            background-size: cover;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            background: #1e1e2f;
+            color: white;
+            z-index: 1000;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #ffcc00;
+            position: absolute;
+            left: 30px;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .navbar a:hover {
+            color: #ffcc00;
+        }
+
+        /* قائمة منسدلة */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* الهيدر */
+        .header {
+            color: white;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+            margin-right: 10px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #ffcc00;
+            color: black;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #e6b800;
+        }
+
+        /* الأقسام */
+        .section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            color: #1e1e2f;
+            margin-bottom: 40px;
+        }
+
+        /* الخدمات */
+        .services {
+            background: #f8f9fa;
+        }
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background-color: #ffcc00; /* تغيير لون الخلفية عند التمرير */
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            color: #0f3460;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .service-card a {
+            display: inline-block;
+            background: #ffcc00;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .service-card a:hover {
+            background-color: #e6b800; /* تدرج أصفر */
+        }
+
+        .highlight {
+            background-color: #ffcc00; /* تظليل للخدمة المحددة */
+            transition: background-color 0.3s;
+        }
+
+        /* الفوتر */
+        footer {
+            background: #1e1e2f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #ffcc00;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        /* نافذة منبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- شريط التنقل -->
+<div class="navbar">
+    <h1 id="navbar-title">نظام السكن</h1>
+    <div class="nav-links">
+        <a href="#">HOME</a>
+        <a href="#" id="aboutBtn">ABOUT</a>
+        <div class="dropdown">
+            <a href="#">SERVICES</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="scrollToService('service1')">حجز غرفة</a>
+                <a href="#" onclick="scrollToService('service2')">طلب صيانة</a>
+                <a href="#" onclick="scrollToService('service3')">تقديم شكوى</a>
+                <a href="#" onclick="scrollToService('service4')">تجديد / إخلاء عقد</a>
+            </div>
+        </div>
+        <a href="#">Track Request</a>
+        <a href="#">PAGES</a>
+    </div>
+</div>
+
+<!-- نافذة منبثقة -->
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>معلومات عن موقع سكن الطلاب</h2>
+        <p>نظام السكن يقدم خدمات متعددة للطلاب، بما في ذلك حجز الغرف، طلبات الصيانة، وتقديم الشكاوى. هدفنا هو توفير بيئة مريحة وآمنة للطلاب، حيث يمكنهم التركيز على دراستهم وتطوير مهاراتهم.</p>
+    </div>
+</div>
+
+<!-- الهيدر -->
+<header class="header">
+    <h1 id="header-title">مرحبًا بك في نظام السكن الجامعي</h1>
+    <p id="header-description">نوفر أفضل الخدمات للطلاب بطريقة سهلة وسريعة.</p>
+    <div class="search-bar">
+        <input type="text" placeholder="ابحث عن الخدمات..." />
+        <button>بحث</button>
+    </div>
+</header>
+
+<!-- قسم الخدمات -->
+<section class="section services">
+    <h2 id="services-title" class="section-title">الخدمات</h2>
+    <div class="service-cards">
+        <div class="service-card" id="service1">
+            <h3 id="service1-title">حجز غرفة</h3>
+            <p id="service1-desc">احجز غرفتك بسهولة عبر موقعنا الإلكتروني.</p>
+            <a href="service1.php" id="service1-link">ابدأ الآن</a>
+        </div>
+        <div class="service-card" id="service2">
+            <h3 id="service2-title">طلب صيانة</h3>
+            <p id="service2-desc">يمكنك إرسال طلبات الصيانة بسهولة وسرعة.</p>
+            <a href="service2.html" id="service2-link">اطلب الآن</a>
+        </div>
+        <div class="service-card" id="service3">
+            <h3 id="service3-title">تقديم شكوى</h3>
+            <p id="service3-desc">تواصل معنا وقدم شكواك لتحصل على الدعم اللازم.</p>
+            <a href="service3.html" id="service3-link">قدم شكوى</a>
+        </div>
+        <div class="service-card" id="service4">
+            <h3 id="service4-title">تجديد عقد / إخلاء طرف</h3>
+            <p id="service4-desc">يمكنك تجديد عقدك أو تقديم طلب إخلاء الطرف بسهولة.</p>
+            <a href="service4.html" id="service4-link">قم بالتقديم الآن</a>
+        </div>
+    </div>
+</section>
+
+<!-- الفوتر -->
+<footer>
+    <p id="footer-text">© 2025 نظام السكن. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script>
+    // فتح وإغلاق النافذة المنبثقة
+    var modal = document.getElementById("aboutModal");
+    var btn = document.getElementById("aboutBtn");
+    var span = document.getElementById("closeModal");
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // دالة للتمرير إلى الخدمة المحددة
+    function scrollToService(serviceId) {
+        // تظليل الخدمة لمدة قصيرة
+        const serviceCard = document.getElementById(serviceId);
+        serviceCard.classList.add('highlight');
+        setTimeout(() => {
+            serviceCard.classList.remove('highlight');
+        }, 2000); // تظليل لمدة 2 ثانية
+
+        // التمرير إلى القسم
+        serviceCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    const translations = {
+        ar: {
+            navbarTitle: "نظام السكن",
+            headerTitle: "مرحبًا بك في نظام السكن الجامعي",
+            headerDesc: "نوفر أفضل الخدمات للطلاب بطريقة سهلة وسريعة.",
+            servicesTitle: "الخدمات",
+            service1Title: "حجز غرفة",
+            service1Desc: "احجز غرفتك بسهولة عبر موقعنا الإلكتروني.",
+            service1Link: "ابدأ الآن",
+            service2Title: "طلب صيانة",
+            service2Desc: "يمكنك إرسال طلبات الصيانة بسهولة وسرعة.",
+            service2Link: "اطلب الآن",
+            service3Title: "تقديم شكوى",
+            service3Desc: "تواصل معنا وقدم شكواك لتحصل على الدعم اللازم.",
+            service3Link: "قدم شكوى",
+            service4Title: "تجديد عقد / إخلاء طرف",
+            service4Desc: "يمكنك تجديد عقدك أو تقديم طلب إخلاء الطرف بسهولة.",
+            service4Link: "قم بالتقديم الآن",
+            footerText: "© 2025 نظام السكن. جميع الحقوق محفوظة."
+        },
+        en: {
+            navbarTitle: "Housing System",
+            headerTitle: "Welcome to the Housing System",
+            headerDesc: "We provide the best services for students easily and quickly.",
+            servicesTitle: "Services",
+            service1Title: "Room Booking",
+            service1Desc: "Book your room easily through our website.",
+            service1Link: "Start Now",
+            service2Title: "Maintenance Request",
+            service2Desc: "Submit maintenance requests easily and quickly.",
+            service2Link: "Request Now",
+            service3Title: "Submit a Complaint",
+            service3Desc: "Contact us and submit your complaint to get the support you need.",
+            service3Link: "Submit Complaint",
+            service4Title: "Contract Renewal / Clearance",
+            service4Desc: "You can easily renew your contract or submit a clearance request.",
+            service4Link: "Apply Now",
+            footerText: "© 2025 Housing System. All Rights Reserved."
+        }
+    };
+
+    let currentLanguage = "ar";
+
+    function toggleLanguage() {
+        currentLanguage = currentLanguage === "ar" ? "en" : "ar";
+        const lang = translations[currentLanguage];
+        document.getElementById("navbar-title").innerText = lang.navbarTitle;
+        document.getElementById("header-title").innerText = lang.headerTitle;
+        document.getElementById("header-description").innerText = lang.headerDesc;
+        document.getElementById("services-title").innerText = lang.servicesTitle;
+        document.getElementById("service1-title").innerText = lang.service1Title;
+        document.getElementById("service1-desc").innerText = lang.service1Desc;
+        document.getElementById("service1-link").innerText = lang.service1Link;
+        document.getElementById("service2-title").innerText = lang.service2Title;
+        document.getElementById("service2-desc").innerText = lang.service2Desc;
+        document.getElementById("service2-link").innerText = lang.service2Link;
+        document.getElementById("service3-title").innerText = lang.service3Title;
+        document.getElementById("service3-desc").innerText = lang.service3Desc;
+        document.getElementById("service3-link").innerText = lang.service3Link;
+        document.getElementById("service4-title").innerText = lang.service4Title;
+        document.getElementById("service4-desc").innerText = lang.service4Desc;
+        document.getElementById("service4-link").innerText = lang.service4Link;
+        document.getElementById("footer-text").innerText = lang.footerText;
+    }
+</script>
+
+</body>
+</html>
